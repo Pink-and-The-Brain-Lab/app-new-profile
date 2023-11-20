@@ -1,0 +1,12 @@
+<div class="d-flex flex-column h-100 w-100 justify-content-between">
+    <div class="flex-grow-1">
+        <h2 class="mt-0 mb-4">Choose a Phone Number for Your New Profile</h2>
+        <p class="mt-0 mb-2">This phone number will be used to send you notifications via SMS or to send you the code to validate the Two Factor Authentication in case if you set it up.</p>
+        <cdk-phone-number (validationPhoneEvent)="setIfPhoneIsAvailabel($event)"></cdk-phone-number>
+    </div>
+    
+    <footer class="flex-grow-0">
+        <button type="button" class="btn btn-dark me-3" (click)="back()"><i class="bi bi-chevron-left"></i> Back</button>
+        <button type="button" class="btn btn-primary" [disabled]="!isPhoneAvailable" (click)="next()">Continue</button>
+    </footer>
+</div>

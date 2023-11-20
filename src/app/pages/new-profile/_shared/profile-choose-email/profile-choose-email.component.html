@@ -1,0 +1,57 @@
+<div class="d-flex flex-column h-100 w-100 justify-content-between">
+    <div class="flex-grow-1">
+        <h2 class="mt-0 mb-4">Choose an Email for Your New Profile</h2>
+        <p class="mt-0 mb-2">This is the email that will be displayed in your new profile.</p>
+        <p class="mt-0 mb-2">This email doesn’t have to be the same as the email to access Zellim.</p>
+    
+        <form [formGroup]="form" class="mt-5 d-flex flex-column align-items-end" (submit)="validateEmail()">
+            <div class="row-form right-icon w-100">
+                <input type="email" cdkInputValidation formControlName="email" />
+                <label>Email</label>
+                <i
+                    class="bi bi-check-lg"
+                    [class.success]="canUseEmail"
+                    [class.bi-check-lg]="canUseEmail"
+                    [class.invalid]="!canUseEmail"
+                    [class.bi-x-lg]="!canUseEmail"
+                    *ngIf="hasEmailChecked"
+                ></i>
+
+                <small *ngIf="email && email.touched && email.errors">
+                    <span *ngIf="email && email.errors['required']">Email is required</span>
+                    <span *ngIf="email && email.errors['email']">{{ emailValidationMessage }}</span>
+                </small>
+            </div>
+
+            <button
+                type="submit"
+                class="btn mt-4 btn-dark"
+                [cdkLoadingButton]="isLoading"
+                [disabled]="email && email.invalid"
+                *ngIf="!canUseEmail"
+            >
+                <cdk-spinner>Verify Email</cdk-spinner>
+            </button>
+
+            <button
+                type="submit"
+                class="btn mt-4 btn-outline-success"
+                disabled
+                *ngIf="canUseEmail"
+            >Email Verified</button>
+        </form>
+    </div>
+    
+    <footer class="flex-grow-0">
+        <button
+            type="button"
+            class="btn"
+            [class.btn-dark]="!canUseEmail"
+            [class.btn-primary]="canUseEmail"
+            [disabled]="!canUseEmail"
+            (click)="next()"
+        >
+            Continue
+        </button>
+    </footer>
+</div>

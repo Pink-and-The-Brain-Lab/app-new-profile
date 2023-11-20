@@ -1,0 +1,17 @@
+<div class="d-flex flex-column h-100 w-100 justify-content-between">
+    <div class="flex-grow-1 d-flex">
+        <app-profile-preview [color]="color" [imageFile]="imageFile"></app-profile-preview>
+
+        <div class="ms-4">
+            <h2>Let’s customize your Profile Avatar</h2>
+            <cdk-chose-image (imageFile)="imageLoaded($event)"></cdk-chose-image>
+            <cdk-color-selector (colorChanged)="color = $event"></cdk-color-selector>
+            <p class="profile-settings mt-4">You can change this later in your profile settings</p>
+        </div>
+    </div>
+    
+    <footer class="flex-grow-0">
+        <button type="button" class="btn btn-dark me-3" (click)="back()" #origin><i class="bi bi-chevron-left"></i> Back</button>
+        <button type="button" class="btn btn-primary" (click)="next()">Continue</button>
+    </footer>
+</div>

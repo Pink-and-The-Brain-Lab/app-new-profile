@@ -1,0 +1,23 @@
+<div class="content h-100 d-flex justify-content-center pt-4">
+    <app-profile-type-box
+        title='Profile'
+        text='You are able to create one profile or multiple profiles within smash, putting you in control of how that data is shared and who with. By creating one smash profile you will be able to keep your information, contacts and data.'
+        buttonText='New Profile'
+        [buttonRoute]="routeToNewProfile"
+        (buttonEvent)="navigateTo($event)"
+    >
+        <illustration-create-new-profile></illustration-create-new-profile>
+    </app-profile-type-box>
+
+    <app-profile-type-box
+        title='Organization'
+        text='Organizations are a network of profiles and information.  The organization creator has ownership of all data and profiles within the organization as well as the ability to grant permissions, set rolls, tasks and much more.'
+        buttonText='New Organization'
+        [buttonRoute]="routeToNewOrganization"
+        buttonType="info"
+        (buttonEvent)="navigateTo($event)"
+    >
+        <illustration-create-new-organization></illustration-create-new-organization>
+    </app-profile-type-box>
+</div>
+

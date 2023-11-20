@@ -1,0 +1,31 @@
+<div class="d-flex flex-column h-100 w-100 justify-content-between">
+    <div class="flex-grow-1 d-flex">
+        <app-profile-preview [color]="color" [imageFile]="imageFile" [userName]="userName" [profileName]="profileName"></app-profile-preview>
+
+        <div class="ms-4">
+            <h2>Chosen a Profile Name</h2>
+            <p class="profile-settings mt-4">
+                Our Profile System gives you the power and flexibility to separate your social identities.
+            </p>
+            <p class="profile-settings mt-4">
+                Manage and organize your Circles of Influence across all of your business, personal and hobby lives.
+            </p>
+
+            <form [formGroup]="form" class="mt-5 d-flex flex-column align-items-end">
+                <div class="row-form right-icon w-100">
+                    <input type="email" cdkInputValidation formControlName="name" />
+                    <label>Profile Name</label>
+                    <small *ngIf="name && name.touched && name.errors">
+                        <span *ngIf="name && name.errors['required']">name is required</span>
+                        <span *ngIf="name && name.errors['minlength']">name should be 4 characters at least</span>
+                    </small>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="flex-grow-0">
+        <button type="button" class="btn btn-dark me-3" (click)="back()" #origin><i class="bi bi-chevron-left"></i> Back</button>
+        <button type="button" class="btn btn-primary" (click)="next()" [disabled]="form.invalid || !userName.length">Continue</button>
+    </footer>
+</div>

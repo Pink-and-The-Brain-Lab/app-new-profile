@@ -1,0 +1,19 @@
+@import "variables";
+@import "em";
+
+h2 {
+    font-weight: 600;
+    font-size: to-em(18);
+    color: $emphasis-high;
+}
+
+p {
+    font-size: to-em(16);
+    color: $emphasis-medium;
+}
+
+button {
+    i {
+        font-size: to-em(10);
+    }
+}

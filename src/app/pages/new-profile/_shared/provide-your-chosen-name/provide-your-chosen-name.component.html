@@ -1,0 +1,31 @@
+<div class="d-flex flex-column h-100 w-100 justify-content-between">
+    <div class="flex-grow-1 d-flex">
+        <app-profile-preview [color]="color" [imageFile]="imageFile" [userName]="userName"></app-profile-preview>
+
+        <div class="ms-4">
+            <h2>Provide your Chosen Name</h2>
+            <p class="profile-settings mt-4">
+                A Chosen Name provides you flexibility to be seen and known as whatever fits this profile Circle of Influence the best.
+            </p>
+            <p class="profile-settings mt-4">
+                Whether it is your legal name, professional name with honorifics or your gamer nickname, you control how your name will be seen by others.
+            </p>
+
+            <form [formGroup]="form" class="mt-5 d-flex flex-column align-items-end">
+                <div class="row-form right-icon w-100">
+                    <input type="email" cdkInputValidation formControlName="name" />
+                    <label>Chosen Name</label>
+                    <small *ngIf="name && name.touched && name.errors">
+                        <span *ngIf="name && name.errors['required']">name is required</span>
+                        <span *ngIf="name && name.errors['minlength']">name should be 4 characters at least</span>
+                    </small>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="flex-grow-0">
+        <button type="button" class="btn btn-dark me-3" (click)="back()" #origin><i class="bi bi-chevron-left"></i> Back</button>
+        <button type="button" class="btn btn-primary" (click)="next()" [disabled]="form.invalid || !userName.length">Continue</button>
+    </footer>
+</div>

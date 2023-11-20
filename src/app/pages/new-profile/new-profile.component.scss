@@ -1,0 +1,13 @@
+@import "variables";
+@import "em";
+
+:host {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    font-size: to-em(30);
+    color: $emphasis-high;
+}

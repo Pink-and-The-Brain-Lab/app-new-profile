@@ -1,0 +1,23 @@
+@import "variables";
+@import "em";
+
+.content {
+    background-color: $support-11;
+    width: 90%;
+    max-width: 350px;
+    border-radius: 8px;
+
+    h3 {
+        font-weight: 600;
+        font-size: to-em(18);
+        line-height: to-em(28);
+        color: $white;
+    }
+
+    p {
+        font-size: to-em(14);
+        line-height: to-em(20);
+        color: $emphasis-medium;
+        text-align: center;
+    }
+}

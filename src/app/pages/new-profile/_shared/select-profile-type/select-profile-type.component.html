@@ -1,0 +1,36 @@
+<div class="d-flex flex-column h-100 w-100 justify-content-between">
+    <div class="flex-grow-1 d-flex">
+        <app-profile-preview [color]="color" [imageFile]="imageFile" [userName]="userName" [profileName]="profileName"></app-profile-preview>
+
+        <div class="ms-4">
+            <h2>Select your Profile Type</h2>
+            <p class="profile-settings mt-4">
+                These settings control the visibility of this Profile. It can be Public or Private and you can adjust it at any time through your Profile Settings.
+            </p>
+
+            <form [formGroup]="form" class="mt-5 d-flex flex-column align-items-end">
+                <div class="row-form right-icon w-100">
+                    <cdk-custom-select
+                        placeholder=""
+                        modelProperty="value"
+                        label="Type"
+                        [options]="profileOptions"
+                        [selectedOption]="selectedOption"
+                        (valueChanges)="getSelectedPropfileOption($event)"
+                    >
+                        <ng-template #customTemplate let-item>
+                            <span>{{ item?.label }}</span>
+                        </ng-template>
+                    </cdk-custom-select>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="flex-grow-0">
+        <button type="button" class="btn btn-dark me-3" (click)="back()" #origin><i class="bi bi-chevron-left"></i> Back</button>
+        <button type="button" class="btn btn-success" (click)="next()" [disabled]="!selectedOption.value.length" [cdkLoadingButton]="isLoading">
+            <cdk-spinner>Create Profile</cdk-spinner>
+        </button>
+    </footer>
+</div>
