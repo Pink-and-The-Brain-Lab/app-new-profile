@@ -1,16 +1,15 @@
-@import "variables";
 @import "em";
 
 h2 {
     font-weight: 700;
     font-size: to-em(30);
     margin: 0;
-    color: $emphasis-high;
+    color: var(--emphasis-high);
 }
 
 .profile-settings {
     font-weight: 400;
     font-size: to-em(14);
-    color: $emphasis-medium;
+    color: var(--emphasis-medium);
     margin: 0;
 }
