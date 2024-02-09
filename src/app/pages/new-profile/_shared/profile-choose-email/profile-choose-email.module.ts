@@ -4,6 +4,7 @@ import { ProfileChooseEmailComponent } from './profile-choose-email.component';
 import { ProfileChooseEmailRoutingModule } from './profile-choose-email-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputValidationModule, LoadingButtonModule, SpinnerModule } from 'millez-components-lib/components';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,10 @@ import { InputValidationModule, LoadingButtonModule, SpinnerModule } from 'mille
     ReactiveFormsModule,
     LoadingButtonModule,
     SpinnerModule,
+    TranslateModule.forChild(),
+  ],
+  providers: [
+    TranslatePipe,
   ]
 })
 export class ProfileChooseEmailModule { }

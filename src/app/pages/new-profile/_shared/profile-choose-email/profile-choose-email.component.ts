@@ -1,24 +1,31 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { ProfileState } from 'src/app/states/state/profile.state';
 import { UpdateProfileAction } from 'src/app/states/actions/update-profile.action';
+import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
+import { IDefaultResponse } from 'src/app/commons/models/default-response.interface';
+import { IValidateEmail } from './models/validate-email.interface';
+import { API_PATH } from 'src/app/constants/api-path';
+import { HandleError } from 'src/app/commons/handle-error/handle-error';
+import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 
 @Component({
   selector: 'app-profile-choose-email',
   templateUrl: './profile-choose-email.component.html',
   styleUrls: ['./profile-choose-email.component.scss']
 })
-export class ProfileChooseEmailComponent implements OnInit, OnDestroy {
+export class ProfileChooseEmailComponent extends HandleError implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<boolean>();
+  private readonly genericCRUDService = inject(GenericCRUDService);
+  private readonly profileUpdate = inject(ProfileUpdate);
   canUseEmail = false;
   hasEmailChecked = false;
   availableEmails: string[] = [];
   allTestedEmails: string[] = [];
-  isLoading = false;
   emailValidationMessage = 'Email is invalid';
 
   form = new FormGroup({
@@ -28,7 +35,9 @@ export class ProfileChooseEmailComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private store: Store
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.email?.valueChanges
@@ -69,21 +78,27 @@ export class ProfileChooseEmailComponent implements OnInit, OnDestroy {
 
   validateEmail() {
     this.isLoading = true;
-    /**
-     * aqui é onde será enviado o email ao backend para validação, caso o email esteja disponivel para uso, 
-     * salvamos o email em um array, e setamos a variavel canUseEmail para true
-     */
-    setTimeout(() => {
-      this.isLoading = false;
-      // em toda vez que chamar a API para validar um email, salvar esse email nessa lista
-      this.allTestedEmails.push(this.email?.value);
-      this.hasEmailChecked = true;
-      this.canUseEmail = true;
-      // salvar nessa lista somente os emails disponiveis
-      this.availableEmails.push(this.email?.value);
-      // e quando a API retornar um email indisponivel, chamar esse método
-      // this.setFormError();
-    }, 3000);
+    const data = { email: this.email?.value }
+    this.genericCRUDService.genericPost<IDefaultResponse, IValidateEmail>(API_PATH.checkEmailDisponibility, data)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.canUseEmail = true;
+          this.availableEmails.push(this.email?.value);
+        },
+        error: _error => {
+          super.handleError(_error);
+          this.canUseEmail = false;
+        },
+        complete: () => {
+          this.isLoading = false;
+          this.allTestedEmails.push(this.email?.value);
+          this.hasEmailChecked = true;
+        },
+      });
   }
 
   next() {
@@ -92,8 +107,17 @@ export class ProfileChooseEmailComponent implements OnInit, OnDestroy {
       ...profile,
       email: this.email?.value,
     };
-    this.store.dispatch( new UpdateProfileAction(profileUpdated) );
-    this.router.navigate(['/new-profile/choose-phone-number']);
+    this.profileUpdate.update({ email: this.email?.value })
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: () => {
+          this.store.dispatch( new UpdateProfileAction(profileUpdated) );
+          this.router.navigate(['/new-profile/choose-phone-number']);
+        },
+        error: _error => super.handleError(_error)
+      });
   }
 
   ngOnDestroy(): void {

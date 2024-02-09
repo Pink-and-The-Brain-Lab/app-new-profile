@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewProfileModule } from './pages/new-profile/new-profile.module';
 import { NgxsModule } from '@ngxs/store';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,12 @@ import { NgxsModule } from '@ngxs/store';
     AppRoutingModule,
     NewProfileModule,
     BrowserAnimationsModule,
-    NgxsModule.forRoot([])
+    NgxsModule.forRoot([]),
+    ToastrModule.forRoot({
+			maxOpened: 10,
+			preventDuplicates: true,
+			progressBar: true
+		}),
   ],
   bootstrap: [AppComponent]
 })
