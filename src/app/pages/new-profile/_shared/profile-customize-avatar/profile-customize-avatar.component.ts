@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CropperComponent, ModalOverlayRef, ModalService } from 'millez-components-lib/components';
+import { CropperComponent, ModalOverlayRef, ModalService } from 'millez-web-components/dist/components';
 import { Store } from '@ngxs/store';
 import { ProfileState } from 'src/app/states/state/profile.state';
 import { UpdateProfileAction } from 'src/app/states/actions/update-profile.action';

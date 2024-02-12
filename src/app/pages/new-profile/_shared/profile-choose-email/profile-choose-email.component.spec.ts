@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
 import { ProfileChooseEmailComponent } from './profile-choose-email.component';
-import { InputValidationModule, LoadingButtonModule, SpinnerModule } from 'millez-components-lib/components';
+import { InputValidationModule, LoadingButtonModule, SpinnerModule } from 'millez-web-components/dist/components';
 
 const mockRouter = {
   navigate: jest.fn()

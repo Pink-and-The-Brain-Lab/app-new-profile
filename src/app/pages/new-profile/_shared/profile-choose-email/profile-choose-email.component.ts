@@ -11,6 +11,7 @@ import { IValidateEmail } from './models/validate-email.interface';
 import { API_PATH } from 'src/app/constants/api-path';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
+import { LocalStorageManager, Storage } from 'millez-web-components/dist/components';
 
 @Component({
   selector: 'app-profile-choose-email',
@@ -22,7 +23,9 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
   private destroy$ = new Subject<boolean>();
   private readonly genericCRUDService = inject(GenericCRUDService);
   private readonly profileUpdate = inject(ProfileUpdate);
+  private readonly localStorageManager = inject(LocalStorageManager);
   canUseEmail = false;
+  savingData = false;
   hasEmailChecked = false;
   availableEmails: string[] = [];
   allTestedEmails: string[] = [];
@@ -49,6 +52,11 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
     .subscribe(
       () => this.checkEmail()
     );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   get email(): AbstractControl | null {
@@ -85,7 +93,6 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
       )
       .subscribe({
         next: () => {
-          this.isLoading = false;
           this.canUseEmail = true;
           this.availableEmails.push(this.email?.value);
         },
@@ -102,6 +109,7 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
   }
 
   next() {
+    this.savingData = true;
     const profile = this.store.selectSnapshot(ProfileState);
     const profileUpdated = {
       ...profile,
@@ -112,17 +120,14 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
         takeUntil(this.destroy$)
       )
       .subscribe({
-        next: () => {
+        next: _response => {
+          this.localStorageManager.set<string>(Storage.PROFILE_ID, _response.profileId);
           this.store.dispatch( new UpdateProfileAction(profileUpdated) );
           this.router.navigate(['/new-profile/choose-phone-number']);
         },
-        error: _error => super.handleError(_error)
+        error: _error => super.handleError(_error),
+        complete: () => this.savingData = false,
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
 }

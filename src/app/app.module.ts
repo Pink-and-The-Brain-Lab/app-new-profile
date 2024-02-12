@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import { NewProfileModule } from './pages/new-profile/new-profile.module';
 import { NgxsModule } from '@ngxs/store';
 import { ToastrModule } from 'ngx-toastr';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiRequestsInterceptorInterceptor } from './api-requests-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,9 +23,6 @@ import { ApiRequestsInterceptorInterceptor } from './api-requests-interceptor.in
 			progressBar: true
 		}),
   ],
-  providers: [{ 
-    provide: HTTP_INTERCEPTORS, useClass: ApiRequestsInterceptorInterceptor, multi:true
-  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

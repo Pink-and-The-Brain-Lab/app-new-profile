@@ -8,5 +8,6 @@ export interface IProfile {
     profileTheme?: string;
     logoutTime?: string;
     dateFormat?: string;
+    phoneNumber?: string;
     validated?: boolean;
 }

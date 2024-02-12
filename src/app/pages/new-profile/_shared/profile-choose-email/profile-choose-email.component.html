@@ -49,9 +49,10 @@
             [class.btn-dark]="!canUseEmail"
             [class.btn-primary]="canUseEmail"
             [disabled]="!canUseEmail"
+            [cdkLoadingButton]="savingData"
             (click)="next()"
         >
-            Continue
+            <cdk-spinner>Continue</cdk-spinner>
         </button>
     </footer>
 </div>
