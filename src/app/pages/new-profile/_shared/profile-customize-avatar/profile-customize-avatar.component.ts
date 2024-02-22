@@ -1,29 +1,37 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CropperComponent, ModalOverlayRef, ModalService } from 'millez-web-components/dist/components';
+import { CropperComponent, IImageUpload, LocalStorageManager, ModalOverlayRef, ModalService, Storage } from 'millez-web-components/dist/components';
 import { Store } from '@ngxs/store';
 import { ProfileState } from 'src/app/states/state/profile.state';
 import { UpdateProfileAction } from 'src/app/states/actions/update-profile.action';
+import { HandleError } from 'src/app/commons/handle-error/handle-error';
+import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
+import { API_PATH } from 'src/app/constants/api-path';
+import { IDefaultResponse } from 'src/app/commons/models/default-response.interface';
 
 @Component({
   selector: 'app-profile-customize-avatar',
   templateUrl: './profile-customize-avatar.component.html',
   styleUrls: ['./profile-customize-avatar.component.scss']
 })
-export class ProfileCustomizeAvatarComponent implements OnDestroy {
+export class ProfileCustomizeAvatarComponent extends HandleError implements OnDestroy {
 
   private destroy$ = new Subject<boolean>();
+  private readonly localStorageManager = inject(LocalStorageManager);
+  private readonly genericCRUDService = inject(GenericCRUDService);
   color = '#7A87CC';
-  imageFile = '';
-  imageFileBackup = '';
+  image = {} as IImageUpload;
+  imageFileBackup = {} as IImageUpload;
 
   constructor(
     private router: Router,
     private modalService: ModalService<string, CropperComponent>,
     private store: Store
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -35,14 +43,35 @@ export class ProfileCustomizeAvatarComponent implements OnDestroy {
   }
 
   next() {
+    this.isLoading = true;
     const profile = this.store.selectSnapshot(ProfileState);
+    const profileId = this.localStorageManager.get<string>(Storage.PROFILE_ID);
+    const formData = new FormData();
+    formData.append('image', this.image.file);
+    formData.append('color', this.color);
+    formData.append('id', profileId || '');
     const profileUpdated = {
       ...profile,
-      image: this.imageFile,
+      image: this.image.blobUrl,
       color: this.color,
     };
-    this.store.dispatch( new UpdateProfileAction(profileUpdated) );
-    this.router.navigate(['/new-profile/provide-chosen-name']);
+
+    this.genericCRUDService
+      .genericPost<IDefaultResponse, FormData>(
+        API_PATH.updateProfile,
+        formData,
+      ).pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: _response => {
+          this.store.dispatch( new UpdateProfileAction(profileUpdated) );
+          this.router.navigate(['/new-profile/provide-chosen-name']);
+        },
+        error: _error => super.handleError(_error),
+        complete: () => this.isLoading = false,
+      });
+
   }
 
   showModal() {
@@ -51,7 +80,7 @@ export class ProfileCustomizeAvatarComponent implements OnDestroy {
         title: 'Crop image',
         acceptButtonLabel: 'Save',
         declineButtonLabel: 'Cancel',
-        data: this.imageFile,
+        data: this.image.blobUrl,
         clickOutsideToClose: false,
       });
 
@@ -61,22 +90,19 @@ export class ProfileCustomizeAvatarComponent implements OnDestroy {
 
   private listenModalAccept(modalRef: ModalOverlayRef<string>) {
     modalRef.accepted.pipe(takeUntil(this.destroy$)).subscribe((response: string) => {
-      this.imageFileBackup = this.imageFile;
-      this.imageFile = response;
+      this.imageFileBackup = this.image;
+      this.image.blobUrl = response;
     });
   }
 
   private listenModalDecline(modalRef: ModalOverlayRef<string>) {
     modalRef.declined.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.imageFile = this.imageFileBackup;
+      this.image = this.imageFileBackup;
     });
   }
 
-  imageLoaded(event: string) {
-    this.imageFile = event;
+  imageLoaded(event: IImageUpload) {
+    this.image = event;
     this.showModal();
   }
-
-  
-
 }

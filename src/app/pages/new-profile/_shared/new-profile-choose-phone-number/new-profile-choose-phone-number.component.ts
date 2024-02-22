@@ -33,6 +33,11 @@ export class NewProfileChoosePhoneNumberComponent extends HandleError implements
     super();
   }
 
+  /**
+   * TODO need to create selecte theme page after validate phone number page,
+   * also need to changes te system theme when the theme option changes
+   */
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
@@ -50,17 +55,19 @@ export class NewProfileChoosePhoneNumberComponent extends HandleError implements
       phoneNumber: this.phoneNumber,
     };
     
-    this.profileUpdate.update({ phoneNumber: this.phoneNumber })
+    this.profileUpdate.update({ phoneNumber: this.phoneNumber, email: profile.email })
       .pipe(
         takeUntil(this.destroy$)
       )
       .subscribe({
-        next: _response => {
+        next: () => {
           this.store.dispatch( new UpdateProfileAction(profileUpdated) );
           this.router.navigate(['/new-profile/phone-number-validation']);
         },
-        error: _error => super.handleError(_error),
-        complete: () => this.savingData = false,
+        error: _error => {
+          super.handleError(_error);
+          this.savingData = false;
+        },
       });
   }
 

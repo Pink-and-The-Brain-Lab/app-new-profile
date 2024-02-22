@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileCustomizeAvatarComponent } from './profile-customize-avatar.component';
 import { ProfileCustomizeAvatarRoutingModule } from './profile-customize-avatar-routing.module';
-import { ChoseImageModule, ColorSelectorModule, CropperModule, ModalModule, ProfilePreviewModule } from 'millez-web-components/dist/components';
-import { ProfileState } from 'src/app/states/state/profile.state';
-import { NgxsModule } from '@ngxs/store';
+import { ChoseImageModule, ColorSelectorModule, CropperModule, LoadingButtonModule, ModalModule, ProfilePreviewModule, SpinnerModule } from 'millez-web-components/dist/components';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -18,9 +17,11 @@ import { NgxsModule } from '@ngxs/store';
     ColorSelectorModule,
     ModalModule,
     CropperModule,
-    NgxsModule.forRoot([
-      ProfileState
-    ])
+    SpinnerModule,
+    LoadingButtonModule,
+  ],
+  providers: [
+    TranslatePipe,
   ]
 })
 export class ProfileCustomizeAvatarModule { }
