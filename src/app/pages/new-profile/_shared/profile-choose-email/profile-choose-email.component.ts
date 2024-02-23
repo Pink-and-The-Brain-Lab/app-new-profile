@@ -115,7 +115,7 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
       ...profile,
       email: this.email?.value,
     };
-    this.profileUpdate.update({ email: this.email?.value })
+    this.genericCRUDService.genericPost<IDefaultResponse, IValidateEmail>(API_PATH.createProfile, { email: this.email?.value })
       .pipe(
         takeUntil(this.destroy$)
       )
@@ -125,8 +125,10 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
           this.store.dispatch( new UpdateProfileAction(profileUpdated) );
           this.router.navigate(['/new-profile/choose-phone-number']);
         },
-        error: _error => super.handleError(_error),
-        complete: () => this.savingData = false,
+        error: _error => {
+          super.handleError(_error);
+          this.savingData = false;
+        },
       });
   }
 

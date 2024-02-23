@@ -21,7 +21,7 @@ export class ProfileUpdate {
     };
     return this.genericCRUDService
       .genericPost<IDefaultResponse, IProfile>(
-        API_PATH.createProfile,
+        API_PATH.updateProfile,
         data,
       );
   }

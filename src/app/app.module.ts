@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewProfileModule } from './pages/new-profile/new-profile.module';
-import { NgxsModule } from '@ngxs/store';
 import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -16,7 +15,6 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutingModule,
     NewProfileModule,
     BrowserAnimationsModule,
-    NgxsModule.forRoot([]),
     ToastrModule.forRoot({
 			maxOpened: 10,
 			preventDuplicates: true,
