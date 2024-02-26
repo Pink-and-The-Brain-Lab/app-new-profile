@@ -1,0 +1,48 @@
+<div class="d-flex flex-column h-100 w-100 justify-content-between">
+    <div class="flex-grow-1">
+      <h2 class="mt-0 mb-4">Choose a theme</h2>
+      <p class="mt-0 mb-2">You can change this later in your profile preferences</p>
+
+      <div class="d-flex flex-wrap">
+        <div class="theme d-flex flex-column mb-4 me-4 selected">
+            <illustration-choose-dark-profile></illustration-choose-dark-profile>
+            <div class="legend w-100 d-flex p-2">
+                <div class="radio me-2"></div>
+                <span>Dark</span>
+            </div>
+        </div>
+
+        <div class="theme d-flex flex-column mb-4 me-4">
+            <illustration-choose-navy-profile></illustration-choose-navy-profile>
+            <div class="legend w-100 d-flex p-2">
+                <div class="radio me-2"></div>
+                <span>Navy</span>
+            </div>
+        </div>
+
+        <div class="theme d-flex flex-column mb-4 me-4">
+            <illustration-choose-light-profile></illustration-choose-light-profile>
+            <div class="legend w-100 d-flex p-2">
+                <div class="radio me-2"></div>
+                <span>Light</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- <footer class="flex-grow-0">
+      <button type="button" class="btn btn-dark me-3" (click)="back()">
+        <i class="bi bi-chevron-left"></i> Back
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="!isPhoneAvailable || !isPhoneValidated"
+        [cdkLoadingButton]="savingData"
+        (click)="next()"
+      >
+          <cdk-spinner>Continue</cdk-spinner>
+      </button>
+    </footer> -->
+  </div>
+  

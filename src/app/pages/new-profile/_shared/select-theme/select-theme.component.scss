@@ -1,0 +1,50 @@
+@import "em";
+
+h2 {
+    font-weight: 600;
+    font-size: to-em(18);
+    color: var(--emphasis-high);
+}
+
+p {
+    font-size: to-em(16);
+    color: var(--emphasis-medium);
+}
+
+.theme {
+    width: 250px;
+    outline: 1px solid var(--support-7);
+    overflow: hidden;
+    border-radius: 3px;
+    cursor: pointer;
+
+    .legend {
+        border-top: 1px solid var(--support-7);
+    }
+
+    .radio {
+        width: 20px;
+        height: 20px;
+        border: 1px solid var(--support-7);
+        border-radius: 50%;
+    }
+
+    span {
+        font-size: to-em(14);
+        color: var(--emphasis-medium)
+    }
+
+    &.selected {
+        outline: 2px solid var(--primary);
+
+        .radio {
+            background-color: var(--white);
+            border: 6px solid var(--primary);
+        }
+
+        span {
+            font-weight: bold;
+            color: var(--emphasis-high);            
+        }
+    }
+}

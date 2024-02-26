@@ -34,6 +34,10 @@ const routes: Routes = [{
   path: 'select-profile-type',
   component: NewProfileComponent,
   loadChildren: () => import('./_shared/select-profile-type/select-profile-type.module').then(m => m.SelectProfileTypeModule)
+}, {
+  path: 'select-theme',
+  component: NewProfileComponent,
+  loadChildren: () => import('./_shared/select-theme/select-theme.module').then(m => m.SelectThemeModule)
 }];
 
 @NgModule({
