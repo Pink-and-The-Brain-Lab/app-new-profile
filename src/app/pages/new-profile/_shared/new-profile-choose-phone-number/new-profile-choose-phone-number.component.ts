@@ -33,11 +33,6 @@ export class NewProfileChoosePhoneNumberComponent extends HandleError implements
     super();
   }
 
-  /**
-   * TODO need to create selecte theme page after validate phone number page,
-   * also need to changes te system theme when the theme option changes
-   */
-
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

@@ -19,6 +19,10 @@ const routes: Routes = [{
   component: NewProfileComponent,
   loadChildren: () => import('./_shared/new-profile-phone-number-validation/new-profile-phone-number-validation.module').then(m => m.NewProfilePhoneNumberValidationModule)
 }, {
+  path: 'select-theme',
+  component: NewProfileComponent,
+  loadChildren: () => import('./_shared/select-theme/select-theme.module').then(m => m.SelectThemeModule)
+}, {
   path: 'customize-avatar',
   component: NewProfileComponent,
   loadChildren: () => import('./_shared/profile-customize-avatar/profile-customize-avatar.module').then(m => m.ProfileCustomizeAvatarModule)
@@ -34,10 +38,6 @@ const routes: Routes = [{
   path: 'select-profile-type',
   component: NewProfileComponent,
   loadChildren: () => import('./_shared/select-profile-type/select-profile-type.module').then(m => m.SelectProfileTypeModule)
-}, {
-  path: 'select-theme',
-  component: NewProfileComponent,
-  loadChildren: () => import('./_shared/select-theme/select-theme.module').then(m => m.SelectThemeModule)
 }];
 
 @NgModule({

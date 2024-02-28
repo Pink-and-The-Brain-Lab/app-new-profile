@@ -39,7 +39,7 @@ export class ProfileCustomizeAvatarComponent extends HandleError implements OnDe
   }
 
   back() {
-    this.router.navigate(['/new-profile/phone-number-validation']);
+    this.router.navigate(['/new-profile/select-theme']);
   }
 
   next() {

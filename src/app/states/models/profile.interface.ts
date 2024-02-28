@@ -1,3 +1,5 @@
+import { Theme } from "millez-web-components/dist/components";
+
 export interface IProfile {
     email: string;
     phoneNumber: string;
@@ -8,4 +10,5 @@ export interface IProfile {
     profileName: string;
     profileType: string;
     profilePolicy: string;
+    theme: Theme;
 }

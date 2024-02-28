@@ -4,7 +4,11 @@
       <p class="mt-0 mb-2">You can change this later in your profile preferences</p>
 
       <div class="d-flex flex-wrap">
-        <div class="theme d-flex flex-column mb-4 me-4 selected">
+        <div
+            class="theme d-flex flex-column mb-4 me-4"
+            [class.selected]="selectedTheme === 'dark'"
+            (click)="selectTheme('DARK')"
+        >
             <illustration-choose-dark-profile></illustration-choose-dark-profile>
             <div class="legend w-100 d-flex p-2">
                 <div class="radio me-2"></div>
@@ -12,7 +16,11 @@
             </div>
         </div>
 
-        <div class="theme d-flex flex-column mb-4 me-4">
+        <div
+            class="theme d-flex flex-column mb-4 me-4"
+            [class.selected]="selectedTheme === 'navy'"
+            (click)="selectTheme('NAVY')"
+        >
             <illustration-choose-navy-profile></illustration-choose-navy-profile>
             <div class="legend w-100 d-flex p-2">
                 <div class="radio me-2"></div>
@@ -20,29 +28,56 @@
             </div>
         </div>
 
-        <div class="theme d-flex flex-column mb-4 me-4">
+        <div
+            class="theme d-flex flex-column mb-4 me-4"
+            [class.selected]="selectedTheme === 'light'"
+            (click)="selectTheme('LIGHT')"
+        >
             <illustration-choose-light-profile></illustration-choose-light-profile>
             <div class="legend w-100 d-flex p-2">
                 <div class="radio me-2"></div>
                 <span>Light</span>
             </div>
         </div>
+
+        <div
+            class="theme d-flex flex-column mb-4 me-4"
+            [class.selected]="selectedTheme === 'purple'"
+            (click)="selectTheme('PURPLE')"
+        >
+            <illustration-choose-purple-profile></illustration-choose-purple-profile>
+            <div class="legend w-100 d-flex p-2">
+                <div class="radio me-2"></div>
+                <span>Purple</span>
+            </div>
+        </div>
+
+        <div
+            class="theme d-flex flex-column mb-4 me-4"
+            [class.selected]="selectedTheme === 'lightPurple'"
+            (click)="selectTheme('LIGHT_PURPLE')"
+        >
+            <illustration-choose-light-purple-profile></illustration-choose-light-purple-profile>
+            <div class="legend w-100 d-flex p-2">
+                <div class="radio me-2"></div>
+                <span>Light Purple</span>
+            </div>
+        </div>
       </div>
     </div>
   
-    <!-- <footer class="flex-grow-0">
+    <footer class="flex-grow-0">
       <button type="button" class="btn btn-dark me-3" (click)="back()">
         <i class="bi bi-chevron-left"></i> Back
       </button>
       <button
         type="button"
         class="btn btn-primary"
-        [disabled]="!isPhoneAvailable || !isPhoneValidated"
-        [cdkLoadingButton]="savingData"
+        [cdkLoadingButton]="isLoading"
         (click)="next()"
       >
           <cdk-spinner>Continue</cdk-spinner>
       </button>
-    </footer> -->
+    </footer>
   </div>
   

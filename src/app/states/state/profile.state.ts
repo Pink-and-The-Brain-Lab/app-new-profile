@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
 import { IProfile } from "../models/profile.interface";
 import { UpdateProfileAction } from '../actions/update-profile.action';
+import { Theme } from 'millez-web-components/dist/components';
 
 const STATE_TOKEN = new StateToken<IProfile>('profile');
 
@@ -17,6 +18,7 @@ const STATE_TOKEN = new StateToken<IProfile>('profile');
         profileName: '',
         profileType: '',
         profilePolicy: '',
+        theme: Theme.DARK,
     }
 })
 @Injectable()
