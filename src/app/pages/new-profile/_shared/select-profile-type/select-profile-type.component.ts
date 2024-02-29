@@ -7,6 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProfileType } from './models/profile-type.interface';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
+import { DashboardVisualizationControlAction } from 'millez-web-components/dist/components';
 
 @Component({
   selector: 'app-select-profile-type',
@@ -17,6 +18,8 @@ export class SelectProfileTypeComponent extends HandleError implements OnDestroy
 
   private destroy$ = new Subject<boolean>();
   private readonly profileUpdate = inject(ProfileUpdate);
+  private readonly router = inject(Router);
+  private readonly store = inject(Store);
   color = '#7A87CC';
   imageFile = '';
   userName = 'Chosen Name';
@@ -30,12 +33,9 @@ export class SelectProfileTypeComponent extends HandleError implements OnDestroy
   }];
   selectedOption = this.profileOptions[1];
 
-  constructor(
-    private router: Router,
-    private store: Store
-    ) {
-      super();
-    }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
     this.listenProfileState();
@@ -81,6 +81,7 @@ export class SelectProfileTypeComponent extends HandleError implements OnDestroy
       .subscribe({
         next: () => {
           this.store.dispatch( new UpdateProfileAction(profileUpdated) );
+          this.store.dispatch( new DashboardVisualizationControlAction({ showDashboard: true }) );
           this.router.navigate(['/']);
         },
         error: _error => {

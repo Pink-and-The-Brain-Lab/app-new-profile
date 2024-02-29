@@ -21,15 +21,14 @@ export class ProfileCustomizeAvatarComponent extends HandleError implements OnDe
   private destroy$ = new Subject<boolean>();
   private readonly localStorageManager = inject(LocalStorageManager);
   private readonly genericCRUDService = inject(GenericCRUDService);
+  private readonly router = inject(Router);
+  private readonly store = inject(Store);
+  private readonly modalService = inject(ModalService<string, CropperComponent>);
   color = '#7A87CC';
   image = {} as IImageUpload;
   imageFileBackup = {} as IImageUpload;
 
-  constructor(
-    private router: Router,
-    private modalService: ModalService<string, CropperComponent>,
-    private store: Store
-  ) {
+  constructor() {
     super();
   }
 

@@ -21,13 +21,12 @@ export class NewProfilePhoneNumberValidationComponent extends HandleError implem
   private destroy$ = new Subject<boolean>();
   private readonly genericCRUDService = inject(GenericCRUDService);
   private readonly profileUpdate = inject(ProfileUpdate);
+  private readonly router = inject(Router);
+  private readonly store = inject(Store);
   isPhoneValidated = false;
   savingData = false;
 
-  constructor(
-    private router: Router,
-    private store: Store
-  ) {
+  constructor() {
     super();
   }
 

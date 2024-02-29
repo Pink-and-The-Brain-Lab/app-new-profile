@@ -21,15 +21,14 @@ export class NewProfileChoosePhoneNumberComponent extends HandleError implements
   private destroy$ = new Subject<boolean>();
   private readonly genericCRUDService = inject(GenericCRUDService);
   private readonly profileUpdate = inject(ProfileUpdate);
+  private readonly router = inject(Router);
+  private readonly store = inject(Store);
   isPhoneAvailable = false;
   isPhoneValidated = false;
   savingData = false;
   phoneNumber = '';
 
-  constructor(
-    private router: Router,
-    private store: Store
-  ) {
+  constructor() {
     super();
   }
 

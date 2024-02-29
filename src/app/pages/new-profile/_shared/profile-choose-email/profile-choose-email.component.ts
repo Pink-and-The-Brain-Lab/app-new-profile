@@ -10,7 +10,6 @@ import { IDefaultResponse } from 'src/app/commons/models/default-response.interf
 import { IValidateEmail } from './models/validate-email.interface';
 import { API_PATH } from 'src/app/constants/api-path';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
-import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 import { LocalStorageManager, Storage } from 'millez-web-components/dist/components';
 
 @Component({
@@ -22,8 +21,9 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
 
   private destroy$ = new Subject<boolean>();
   private readonly genericCRUDService = inject(GenericCRUDService);
-  private readonly profileUpdate = inject(ProfileUpdate);
   private readonly localStorageManager = inject(LocalStorageManager);
+  private readonly router = inject(Router);
+  private readonly store = inject(Store);
   canUseEmail = false;
   savingData = false;
   hasEmailChecked = false;
@@ -35,10 +35,7 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
     email: new FormControl('', [Validators.required, Validators.email])
   });
 
-  constructor(
-    private router: Router,
-    private store: Store
-  ) {
+  constructor() {
     super();
   }
 

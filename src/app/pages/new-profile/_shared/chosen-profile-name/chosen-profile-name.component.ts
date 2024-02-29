@@ -17,6 +17,8 @@ export class ChosenProfileNameComponent extends HandleError implements OnDestroy
 
   private destroy$ = new Subject<boolean>();
   private readonly profileUpdate = inject(ProfileUpdate);
+  private readonly router = inject(Router);
+  private readonly store = inject(Store);
   color = '#7A87CC';
   imageFile = '';
   userName = 'Chosen Name';
@@ -26,10 +28,7 @@ export class ChosenProfileNameComponent extends HandleError implements OnDestroy
     name: new FormControl('', [Validators.required, Validators.minLength(4)])
   });
 
-  constructor(
-    private router: Router,
-    private store: Store
-  ) {
+  constructor() {
     super();
   }
 

@@ -20,6 +20,8 @@ export class SelectThemeComponent extends HandleError implements OnDestroy {
   private destroy$ = new Subject<boolean>();
   private readonly profileUpdate = inject(ProfileUpdate);
   private readonly themeChangerService = inject(ThemeChangerService);
+  private readonly router = inject(Router);
+  private readonly store = inject(Store);
   selectedTheme = Theme.DARK;
   themeMap = {
     dark: Theme.DARK,
@@ -27,10 +29,7 @@ export class SelectThemeComponent extends HandleError implements OnDestroy {
     light: Theme.LIGHT,
   }
 
-  constructor(
-    private router: Router,
-    private store: Store,
-  ) {
+  constructor() {
     super();
   }
 
