@@ -2,5 +2,5 @@
     <ng-content></ng-content>
     <h3 class="mt-3 mb-0">{{ title }}</h3>
     <p class="mt-4 mb-0">{{ text }}</p>
-    <button class="btn btn-{{ buttonType }} mt-4" (click)="createNew()">{{ buttonText }}</button>
+    <button class="btn btn-{{ buttonType }} mt-4" (click)="createNew()" [disabled]="disableButton">{{ buttonText }}</button>
 </div>

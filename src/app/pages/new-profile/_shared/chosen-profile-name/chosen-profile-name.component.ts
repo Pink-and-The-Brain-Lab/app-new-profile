@@ -7,6 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chosen-profile-name',
@@ -19,10 +20,11 @@ export class ChosenProfileNameComponent extends HandleError implements OnDestroy
   private readonly profileUpdate = inject(ProfileUpdate);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
+  private readonly translatePipe = inject(TranslatePipe);
   color = '#7A87CC';
   imageFile = '';
-  userName = 'Chosen Name';
-  profileName = 'profile name';
+  userName = this.translatePipe.transform('CHOSEN_NAME');
+  profileName = this.translatePipe.transform('PROFILE_NAME');
 
   form = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(4)])
@@ -90,7 +92,7 @@ export class ChosenProfileNameComponent extends HandleError implements OnDestroy
       .pipe(
         takeUntil(this.destroy$)
       )
-      .subscribe(response => this.profileName = response?.trim() || 'profile name')
+      .subscribe(response => this.profileName = response?.trim() || this.translatePipe.transform('PROFILE_NAME'))
   }
 
   get name(): AbstractControl | null {

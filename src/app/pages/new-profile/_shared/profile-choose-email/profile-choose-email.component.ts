@@ -11,6 +11,7 @@ import { IValidateEmail } from './models/validate-email.interface';
 import { API_PATH } from 'src/app/constants/api-path';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { LocalStorageManager, Storage } from 'millez-web-components/dist/components';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-choose-email',
@@ -24,12 +25,13 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
   private readonly localStorageManager = inject(LocalStorageManager);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
+  private readonly translatePipe = inject(TranslatePipe);
   canUseEmail = false;
   savingData = false;
   hasEmailChecked = false;
   availableEmails: string[] = [];
   allTestedEmails: string[] = [];
-  emailValidationMessage = 'Email is invalid';
+  emailValidationMessage = this.translatePipe.transform('EMAIL_IS_INVALID');
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email])
@@ -78,7 +80,7 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
 
   setFormError() {
     this.email?.setErrors({ email: true });
-    this.emailValidationMessage = 'Email unavailable';
+    this.emailValidationMessage = this.translatePipe.transform('EMAIL_UNAVAILABLE');
   }
 
   validateEmail() {

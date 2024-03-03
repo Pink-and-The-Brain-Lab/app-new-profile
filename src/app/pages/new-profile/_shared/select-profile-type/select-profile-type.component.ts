@@ -8,6 +8,7 @@ import { ProfileType } from './models/profile-type.interface';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 import { DashboardVisualizationControlAction } from 'millez-web-components/dist/components';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-select-profile-type',
@@ -20,16 +21,17 @@ export class SelectProfileTypeComponent extends HandleError implements OnDestroy
   private readonly profileUpdate = inject(ProfileUpdate);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
+  private readonly translatePipe = inject(TranslatePipe);
   color = '#7A87CC';
   imageFile = '';
-  userName = 'Chosen Name';
-  profileName = 'profile name';
+  userName = this.translatePipe.transform('CHOSEN_NAME');
+  profileName = this.translatePipe.transform('PROFILE_NAME');
   profileOptions: ProfileType[] = [{
     value: 'Private',
-    label: 'Private',
+    label: this.translatePipe.transform('PRIVATE'),
   }, {
     value: 'Public',
-    label: 'Public',
+    label: this.translatePipe.transform('PUBLIC'),
   }];
   selectedOption = this.profileOptions[1];
 

@@ -12,6 +12,7 @@ export class ProfileTypeBoxComponent {
   @Input() buttonText = '';
   @Input() buttonRoute = '';
   @Input() buttonType: 'primary' | 'info' = 'primary';
+  @Input() disableButton = false;
   @Output() buttonEvent = new EventEmitter<string>();
 
   createNew() {

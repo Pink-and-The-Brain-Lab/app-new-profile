@@ -1,10 +1,8 @@
 <div class="d-flex flex-column h-100 w-100 justify-content-between">
   <div class="flex-grow-1">
-    <h2 class="mt-0 mb-4">Choose a Phone Number for Your New Profile</h2>
+    <h2 class="mt-0 mb-4">{{ 'CHOOSE_PHONE_NUMBER' | translate }}</h2>
     <p class="mt-0 mb-2">
-      This phone number will be used to send you notifications via SMS or to
-      send you the code to validate the Two Factor Authentication in case if you
-      set it up.
+      {{ 'THIS_PHONE_NUMBER_WILL_BE_USED' | translate }}
     </p>
     <cdk-phone-number
       [phoneValidated]="isPhoneValidated"
@@ -16,7 +14,7 @@
 
   <footer class="flex-grow-0">
     <button type="button" class="btn btn-dark me-3" (click)="back()">
-      <i class="bi bi-chevron-left"></i> Back
+      <i class="bi bi-chevron-left"></i> {{ 'BACK' | translate }}
     </button>
     <button
       type="button"
@@ -25,7 +23,7 @@
       [cdkLoadingButton]="savingData"
       (click)="next()"
     >
-        <cdk-spinner>Continue</cdk-spinner>
+        <cdk-spinner>{{ 'CONTINUE' | translate }}</cdk-spinner>
     </button>
   </footer>
 </div>

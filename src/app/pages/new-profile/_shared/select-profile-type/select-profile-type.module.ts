@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SelectProfileTypeComponent } from './select-profile-type.component';
 import { SelectProfileTypeRoutingModule } from './select-profile-type-routing';
 import { CustomSelectModule, LoadingButtonModule, ProfilePreviewModule, SpinnerModule } from 'millez-web-components/dist/components';
-import { NgxsModule } from '@ngxs/store';
-import { ProfileState } from 'src/app/states/state/profile.state';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -18,9 +16,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     CustomSelectModule,
     LoadingButtonModule,
     SpinnerModule,
-    NgxsModule.forRoot([
-      ProfileState
-    ]),
+    TranslateModule.forChild(),
   ],
   providers: [
     TranslatePipe,

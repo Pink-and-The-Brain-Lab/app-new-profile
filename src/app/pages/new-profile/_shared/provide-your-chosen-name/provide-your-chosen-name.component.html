@@ -3,21 +3,21 @@
         <app-profile-preview [color]="color" [imageFile]="imageFile" [userName]="userName"></app-profile-preview>
 
         <div class="ms-4">
-            <h2>Provide your Chosen Name</h2>
+            <h2>{{ 'PROVIDE_YOUR_CHOSEN_NAME' | translate }}</h2>
             <p class="profile-settings mt-4">
-                A Chosen Name provides you flexibility to be seen and known as whatever fits this profile Circle of Influence the best.
+                {{ 'A_CHOSEN_NAME_PROVIDES' | translate }}
             </p>
             <p class="profile-settings mt-4">
-                Whether it is your legal name, professional name with honorifics or your gamer nickname, you control how your name will be seen by others.
+                {{ 'WHETER_IT_IS_YOUR_LEGAL_NAME' | translate }}
             </p>
 
             <form [formGroup]="form" class="mt-5 d-flex flex-column align-items-end">
                 <div class="row-form right-icon w-100">
                     <input type="email" cdkInputValidation formControlName="name" />
-                    <label>Chosen Name</label>
+                    <label>{{ 'CHOSEN_NAME' | translate }}</label>
                     <small *ngIf="name && name.touched && name.errors">
-                        <span *ngIf="name && name.errors['required']">name is required</span>
-                        <span *ngIf="name && name.errors['minlength']">name should be 4 characters at least</span>
+                        <span *ngIf="name && name.errors['required']">{{ 'NAME_REQUIRED' | translate }}</span>
+                        <span *ngIf="name && name.errors['minlength']">{{ 'NAME_SHOULD_BE_4' | translate }}</span>
                     </small>
                 </div>
             </form>
@@ -25,7 +25,9 @@
     </div>
     
     <footer class="flex-grow-0">
-        <button type="button" class="btn btn-dark me-3" (click)="back()" #origin><i class="bi bi-chevron-left"></i> Back</button>
+        <button type="button" class="btn btn-dark me-3" (click)="back()" #origin>
+            <i class="bi bi-chevron-left"></i> {{ 'BACK' | translate }}
+        </button>
         <button
             type="button"
             class="btn btn-primary"
@@ -33,7 +35,7 @@
             [cdkLoadingButton]="isLoading"
             (click)="next()"
             >
-                <cdk-spinner>Continue</cdk-spinner>
+                <cdk-spinner>{{ 'CONTINUE' | translate }}</cdk-spinner>
             </button>
     </footer>
 </div>

@@ -4,9 +4,7 @@ import { ChosenProfileNameComponent } from './chosen-profile-name.component';
 import { ChosenProfileNameRoutingModule } from './chosen-profile-name-routing';
 import { InputValidationModule, LoadingButtonModule, ProfilePreviewModule, SpinnerModule } from 'millez-web-components/dist/components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule } from '@ngxs/store';
-import { ProfileState } from 'src/app/states/state/profile.state';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -19,11 +17,9 @@ import { TranslatePipe } from '@ngx-translate/core';
     InputValidationModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxsModule.forRoot([
-      ProfileState
-    ]),
     SpinnerModule,
     LoadingButtonModule,
+    TranslateModule.forChild(),
   ],
   providers: [
     TranslatePipe,

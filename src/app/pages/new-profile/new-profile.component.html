@@ -1,4 +1,18 @@
-<h2 class="mb-3 flex-grow-0">Create profile</h2>
-<div class="content flex-grow-1">
-    <router-outlet></router-outlet>
+<div class="content h-100 d-flex flex-column">
+    <header class="flex-grow-0 d-flex align-items-center p-4 justify-content-between">
+        <div class="d-flex align-items-center">
+            <cdk-logo></cdk-logo>
+            <h2 class="ms-2">millez</h2>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <button type="button" (click)="close()">
+                <i class="bi bi-x"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="content flex-grow-1 p-4">
+        <router-outlet></router-outlet>
+    </div>
 </div>

@@ -6,7 +6,31 @@
     flex-direction: column;
 }
 
-h2 {
-    font-size: to-em(30);
-    color: var(--emphasis-high);
+header {
+    h2 {
+        font-size: to-em(30);
+        color: var(--emphasis-high);
+    }
+
+    button {
+        background-color: transparent;
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--emphasis-low);
+        border-radius: 50%;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--emphasis-low);
+
+            i {
+                color: var(--main);
+            }
+        }
+
+        i {
+            font-size: to-em(19);
+            color: var(--emphasis-low);
+        }
+    }
 }

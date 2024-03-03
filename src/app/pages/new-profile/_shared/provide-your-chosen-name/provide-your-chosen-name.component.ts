@@ -7,6 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-provide-your-chosen-name',
@@ -19,9 +20,10 @@ export class ProvideYourChosenNameComponent extends HandleError implements OnDes
   private readonly profileUpdate = inject(ProfileUpdate);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
+  private readonly translatePipe = inject(TranslatePipe);
   color = '#7A87CC';
   imageFile = '';
-  userName = 'Chosen Name';
+  userName = this.translatePipe.transform('CHOSEN_NAME');
 
   form = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(4)])
@@ -86,7 +88,7 @@ export class ProvideYourChosenNameComponent extends HandleError implements OnDes
       .pipe(
         takeUntil(this.destroy$)
       )
-      .subscribe(response => this.userName = response?.trim() || 'Chosen Name')
+      .subscribe(response => this.userName = response?.trim() || this.translatePipe.transform('CHOSEN_NAME'))
   }
 
   get name(): AbstractControl | null {

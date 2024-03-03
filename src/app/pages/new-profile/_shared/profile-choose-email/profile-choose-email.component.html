@@ -1,13 +1,13 @@
 <div class="d-flex flex-column h-100 w-100 justify-content-between">
     <div class="flex-grow-1">
-        <h2 class="mt-0 mb-4">Choose an Email for Your New Profile</h2>
-        <p class="mt-0 mb-2">This is the email that will be displayed in your new profile.</p>
-        <p class="mt-0 mb-2">This email doesn’t have to be the same as the email to access Zellim.</p>
+        <h2 class="mt-0 mb-4">{{ 'CHOOSE_AN_EMAIL_FOR_YOUR_NEW_PROFILE' | translate }}</h2>
+        <p class="mt-0 mb-2">{{ 'THIS_IS_THE_EMAIL_THAT_WILL_BE' | translate }}</p>
+        <p class="mt-0 mb-2">{{ 'THIS_EMAIL_DOESNT_HAVE_TO_BE' | translate }}</p>
     
         <form [formGroup]="form" class="mt-5 d-flex flex-column align-items-end" (submit)="validateEmail()">
             <div class="row-form right-icon w-100">
                 <input type="email" cdkInputValidation formControlName="email" />
-                <label>Email</label>
+                <label>{{ 'EMAIL' | translate }}</label>
                 <i
                     class="bi bi-check-lg"
                     [class.success]="canUseEmail"
@@ -18,7 +18,7 @@
                 ></i>
 
                 <small *ngIf="email && email.touched && email.errors">
-                    <span *ngIf="email && email.errors['required']">Email is required</span>
+                    <span *ngIf="email && email.errors['required']">{{ 'EMAIL_IS_REQUIRED' | translate }}</span>
                     <span *ngIf="email && email.errors['email']">{{ emailValidationMessage }}</span>
                 </small>
             </div>
@@ -30,7 +30,7 @@
                 [disabled]="email && email.invalid"
                 *ngIf="!canUseEmail"
             >
-                <cdk-spinner>Verify Email</cdk-spinner>
+                <cdk-spinner>{{ 'VERIFY_EMAIL' | translate }}</cdk-spinner>
             </button>
 
             <button
@@ -38,7 +38,7 @@
                 class="btn mt-4 btn-outline-success"
                 disabled
                 *ngIf="canUseEmail"
-            >Email Verified</button>
+            >{{ 'EMAIL_VERIFIED' | translate }}</button>
         </form>
     </div>
     
@@ -52,7 +52,7 @@
             [cdkLoadingButton]="savingData"
             (click)="next()"
         >
-            <cdk-spinner>Continue</cdk-spinner>
+            <cdk-spinner>{{ 'CONTINUE' | translate }}</cdk-spinner>
         </button>
     </footer>
 </div>

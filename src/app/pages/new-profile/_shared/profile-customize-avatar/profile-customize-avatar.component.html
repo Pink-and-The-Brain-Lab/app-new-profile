@@ -3,22 +3,24 @@
         <app-profile-preview [color]="color" [imageFile]="image.blobUrl"></app-profile-preview>
 
         <div class="ms-4">
-            <h2>Let’s customize your Profile Avatar</h2>
+            <h2>{{ 'LETS_CUSTOMIZE_YOUR_PROFILE_AVATAR' | translate }}</h2>
             <cdk-chose-image (imageFile)="imageLoaded($event)"></cdk-chose-image>
             <cdk-color-selector (colorChanged)="color = $event"></cdk-color-selector>
-            <p class="profile-settings mt-4">You can change this later in your profile settings</p>
+            <p class="profile-settings mt-4">{{ 'YOU_CAN_CHANGE_THIS_LATER_IN_YOUR_PROFILE_SETTINGS' | translate }}</p>
         </div>
     </div>
     
     <footer class="flex-grow-0">
-        <button type="button" class="btn btn-dark me-3" (click)="back()" #origin><i class="bi bi-chevron-left"></i> Back</button>
+        <button type="button" class="btn btn-dark me-3" (click)="back()" #origin>
+            <i class="bi bi-chevron-left"></i> {{ 'BACK' | translate }}
+        </button>
         <button
             type="button"
             class="btn btn-primary"
             [cdkLoadingButton]="isLoading"
             (click)="next()"
         >
-            <cdk-spinner>Continue</cdk-spinner>
+            <cdk-spinner>{{ 'CONTINUE' | translate }}</cdk-spinner>
         </button>
     </footer>
 </div>

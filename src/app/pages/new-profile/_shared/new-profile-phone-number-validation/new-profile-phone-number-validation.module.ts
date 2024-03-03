@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NewProfilePhoneNumberValidationComponent } from './new-profile-phone-number-validation.component';
 import { NewProfileChoosePhoneNumberRoutingModule } from './new-profile-phone-number-validation-routing.module';
 import { CodeValidationModule, LoadingButtonModule, SpinnerModule } from 'millez-web-components/dist/components';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -15,6 +15,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     CodeValidationModule,
     SpinnerModule,
     LoadingButtonModule,
+    TranslateModule.forChild(),
   ],
   providers: [
     TranslatePipe,
