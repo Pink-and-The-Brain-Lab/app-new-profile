@@ -27,14 +27,14 @@ describe('GenericCRUDService', () => {
   });
 
   it('should call post method', fakeAsync(() => {
-    const responseMock: IDefaultResponse = { success: true };
-    service.genericPost(`${API_PATH.createPassword}`, {}).subscribe({
+    const responseMock: IDefaultResponse = { success: true, profileId: '1234566' };
+    service.genericPost(`${API_PATH.checkEmailDisponibility}`, {}).subscribe({
       next: response => {
         expect(response).toEqual(responseMock);
       }
     });
 
-    const req = httpController.expectOne(`${environment.baseUlr}${API_PATH.createPassword}`);
+    const req = httpController.expectOne(`${environment.baseUlr}${API_PATH.checkEmailDisponibility}`);
     expect(req.request.method).toEqual('POST');
     req.flush(responseMock);
   }));

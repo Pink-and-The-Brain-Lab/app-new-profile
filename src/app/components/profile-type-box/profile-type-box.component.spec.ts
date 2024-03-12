@@ -25,11 +25,11 @@ describe('ProfileTypeBoxComponent', () => {
     expect(component.buttonType).toBe('primary');
   });
 
-  // it('should emit button event', () => {
-  //   jest.spyOn(component.buttonEvent, 'emit');
-  //   const route = 'route-test';
-  //   component.buttonRoute = route;
-  //   component.createNew();
-  //   expect(component.buttonEvent.emit).toBeCalledWith(route);
-  // });
+  it('should emit button event', () => {
+    spyOn(component.buttonEvent, 'emit');
+    const route = 'route-test';
+    component.buttonRoute = route;
+    component.createNew();
+    expect(component.buttonEvent.emit).toHaveBeenCalledWith(route);
+  });
 });
