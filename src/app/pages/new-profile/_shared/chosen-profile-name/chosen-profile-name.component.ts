@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { ProfileState } from 'src/app/states/state/profile.state';
-import { UpdateProfileAction } from 'src/app/states/actions/update-profile.action';
 import { Subject, takeUntil } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 
 @Component({
   selector: 'app-chosen-profile-name',
@@ -45,7 +44,7 @@ export class ChosenProfileNameComponent extends HandleError implements OnDestroy
   }
 
   private listenProfileState() {
-    this.store.select(ProfileState.profile)
+    this.store.select(UpdateProfileState.profile)
       .pipe(
         takeUntil(this.destroy$)
       )
@@ -63,13 +62,11 @@ export class ChosenProfileNameComponent extends HandleError implements OnDestroy
   }
 
   next() {
-    const profile = this.store.selectSnapshot(ProfileState);
+    const profile = this.store.selectSnapshot(UpdateProfileState);
     const profileUpdated = {
       ...profile,
       profileName: this.name?.value,
     };
-
-    
     
     this.profileUpdate.update({ profileName: this.name?.value })
       .pipe(

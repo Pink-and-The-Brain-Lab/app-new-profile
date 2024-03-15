@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [{
   path: '',
-  loadChildren: async () => (await import('./pages/new-profile/new-profile.module')).NewProfileModule
+  loadChildren: () => import('./pages/new-profile/new-profile.module').then(m => m.NewProfileModule)
 }];
 
 @NgModule({

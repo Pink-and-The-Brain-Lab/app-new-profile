@@ -14,10 +14,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 import { Router } from '@angular/router';
-
-const mockProfileUpdate = {
-    update: () => of({}),
-};
+import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock';
 
 describe('ChosenProfileNameComponent', () => {
   let component: ChosenProfileNameComponent;
@@ -45,7 +42,7 @@ describe('ChosenProfileNameComponent', () => {
         TranslatePipe,
         { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
         { provide: GenericCRUDService, useValue: spy },
-        { provide: ProfileUpdate, useValue: mockProfileUpdate },
+        { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
       ]
     })
     .compileComponents();

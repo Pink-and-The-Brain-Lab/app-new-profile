@@ -1,12 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
-import { PhoneNumberModule } from '@app/_cdk/components/phone-number/phone-number.module';
 import { NewProfileChoosePhoneNumberComponent } from './new-profile-choose-phone-number.component';
-
-const mockRouter = {
-    navigate: jest.fn()
-  };
+import { LoadingButtonModule, PhoneNumberModule, SpinnerModule } from 'millez-web-components/dist/components';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import TOASTR_SERVICE_MOCK from 'src/app/mocks/toastr-service.test.mock';
+import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
+import { NgxsModule, Store } from '@ngxs/store';
+import { Router } from '@angular/router';
+import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
+import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock';
+import { of, throwError } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NewProfileChoosePhoneNumberComponent', () => {
   let component: NewProfileChoosePhoneNumberComponent;
@@ -16,13 +22,20 @@ describe('NewProfileChoosePhoneNumberComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ NewProfileChoosePhoneNumberComponent ],
       imports: [
-        PhoneNumberModule,
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([]),
         BrowserAnimationsModule,
+        PhoneNumberModule,
+        SpinnerModule,
+        LoadingButtonModule,
+        TranslateModule.forRoot(),
+        NgxsModule.forRoot([])
       ],
-      providers: [{
-        provide: Router,
-        useValue: mockRouter
-      }]
+      providers: [
+        TranslatePipe,
+        { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
+        { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
+      ]
     })
     .compileComponents();
 
@@ -37,20 +50,49 @@ describe('NewProfileChoosePhoneNumberComponent', () => {
 
   it('should back to previous page', () => {
     const router = TestBed.inject(Router);
-    const spy = jest.spyOn(router, 'navigate');
+    const spy = spyOn(router, 'navigate');
     component.back();
     expect(spy).toHaveBeenCalledWith(['/new-profile/choose-email']);
   });
-
-  it('should go to next page', () => {
+  
+  it('should save profile data and go to the next page', () => {
     const router = TestBed.inject(Router);
-    const spy = jest.spyOn(router, 'navigate');
+    const spy = spyOn(router, 'navigate');
+    const store = TestBed.inject(Store);
+    const storeSpy = spyOn(store, 'selectSnapshot').and.returnValue({ email: '' });
     component.next();
-    expect(spy).toHaveBeenCalledWith(['/new-profile/phone-number-validation']);
+    expect(spy).toHaveBeenCalled();
+    expect(storeSpy).toHaveBeenCalled();
   });
 
-  it('should define phone number disposition', () => {
-    component.setIfPhoneIsAvailabel(true)
-    expect(component.isPhoneAvailable).toBeTruthy();
+  it('should get an error when update profile', () => {
+    const service = TestBed.inject(ProfileUpdate);
+    const spy = spyOn(service, 'update').and.returnValue(throwError(() => ({error: {message: ''}})));
+    const store = TestBed.inject(Store);
+    const storeSpy = spyOn(store, 'selectSnapshot').and.returnValue({ email: '' });
+    component.next();
+    expect(spy).toHaveBeenCalled();
+    expect(component.savingData).toBeFalse();
+    expect(storeSpy).toHaveBeenCalled();
+  });
+
+  it('should check if phone number available', () => {
+    const service = TestBed.inject(GenericCRUDService);
+    const spy = spyOn(service, 'genericPost').and.returnValue(of({}));
+    component.checkIfPhoneIsAvailable('123456');
+    expect(spy).toHaveBeenCalled();
+    expect(component.isPhoneAvailable).toBeTrue();
+    expect(component.isPhoneValidated).toBeTrue();
+    expect(component.isLoading).toBeFalse();
+  });
+
+  it('should get an error when check if phone number available', () => {
+    const service = TestBed.inject(GenericCRUDService);
+    const spy = spyOn(service, 'genericPost').and.returnValue(throwError(() => ({error: {message: ''}})));
+    component.checkIfPhoneIsAvailable('123456');
+    expect(spy).toHaveBeenCalled();
+    expect(component.isPhoneAvailable).toBeFalse();
+    expect(component.isPhoneValidated).toBeFalse();
+    expect(component.isLoading).toBeFalse();
   });
 });
