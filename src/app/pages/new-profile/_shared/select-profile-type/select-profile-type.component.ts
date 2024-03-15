@@ -1,13 +1,11 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { ProfileState } from 'src/app/states/state/profile.state';
-import { UpdateProfileAction } from 'src/app/states/actions/update-profile.action';
 import { Subject, takeUntil } from 'rxjs';
 import { ProfileType } from './models/profile-type.interface';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
-import { DashboardVisualizationControlAction } from 'millez-web-components/dist/components';
+import { DashboardVisualizationControlAction, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -49,7 +47,7 @@ export class SelectProfileTypeComponent extends HandleError implements OnDestroy
   }
 
   private listenProfileState() {
-    this.store.select(ProfileState.profile)
+    this.store.select(UpdateProfileState.profile)
       .pipe(
         takeUntil(this.destroy$)
       )
@@ -69,7 +67,7 @@ export class SelectProfileTypeComponent extends HandleError implements OnDestroy
 
   next() {
     this.isLoading = true;
-    const profile = this.store.selectSnapshot(ProfileState);
+    const profile = this.store.selectSnapshot(UpdateProfileState);
     const profileUpdated = {
       ...profile,
       profileType: this.selectedOption.value,

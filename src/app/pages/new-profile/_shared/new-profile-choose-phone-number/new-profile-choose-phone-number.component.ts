@@ -5,11 +5,10 @@ import { Subject, takeUntil } from 'rxjs';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { IDefaultResponse } from 'src/app/commons/models/default-response.interface';
 import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
-import { UpdateProfileAction } from 'src/app/states/actions/update-profile.action';
-import { ProfileState } from 'src/app/states/state/profile.state';
 import { IValidatePhoneNumber } from '../profile-choose-email/models/validate-phone-number.interface';
 import { API_PATH } from 'src/app/constants/api-path';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
+import { UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 
 @Component({
   selector: 'app-new-profile-choose-phone-number',
@@ -43,7 +42,7 @@ export class NewProfileChoosePhoneNumberComponent extends HandleError implements
 
   next() {
     this.savingData = true;
-    const profile = this.store.selectSnapshot(ProfileState);
+    const profile = this.store.selectSnapshot(UpdateProfileState);
     const profileUpdated = {
       ...profile,
       phoneNumber: this.phoneNumber,
@@ -65,10 +64,10 @@ export class NewProfileChoosePhoneNumberComponent extends HandleError implements
       });
   }
 
-  setIfPhoneIsAvailabel(phoneNumber: string) {
+  checkIfPhoneIsAvailable(phoneNumber: string) {
     this.phoneNumber = phoneNumber;
     this.isLoading = true;
-    const data = { phoneNumber: this.phoneNumber }
+    const data = { phoneNumber: this.phoneNumber };
     this.genericCRUDService.genericPost<IDefaultResponse, IValidatePhoneNumber>(API_PATH.checkPhoneNumberDisponibility, data)
       .pipe(
         takeUntil(this.destroy$)
@@ -77,7 +76,6 @@ export class NewProfileChoosePhoneNumberComponent extends HandleError implements
         next: () => {
           this.isPhoneAvailable = true;
           this.isPhoneValidated = true;
-          
         },
         error: _error => {
           super.handleError(_error);

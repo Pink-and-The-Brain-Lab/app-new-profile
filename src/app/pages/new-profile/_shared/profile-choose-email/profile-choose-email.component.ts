@@ -3,14 +3,12 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngxs/store';
-import { ProfileState } from 'src/app/states/state/profile.state';
-import { UpdateProfileAction } from 'src/app/states/actions/update-profile.action';
 import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
 import { IDefaultResponse } from 'src/app/commons/models/default-response.interface';
 import { IValidateEmail } from './models/validate-email.interface';
 import { API_PATH } from 'src/app/constants/api-path';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
-import { LocalStorageManager, Storage } from 'millez-web-components/dist/components';
+import { LocalStorageManager, Storage, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -109,7 +107,7 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
 
   next() {
     this.savingData = true;
-    const profile = this.store.selectSnapshot(ProfileState);
+    const profile = this.store.selectSnapshot(UpdateProfileState);
     const profileUpdated = {
       ...profile,
       email: this.email?.value,

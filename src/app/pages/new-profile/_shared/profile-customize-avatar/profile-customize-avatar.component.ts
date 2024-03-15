@@ -2,10 +2,8 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CropperComponent, IImageUpload, LocalStorageManager, ModalOverlayRef, ModalService, Storage } from 'millez-web-components/dist/components';
+import { CropperComponent, IImageUpload, LocalStorageManager, ModalOverlayRef, ModalService, Storage, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 import { Store } from '@ngxs/store';
-import { ProfileState } from 'src/app/states/state/profile.state';
-import { UpdateProfileAction } from 'src/app/states/actions/update-profile.action';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
 import { API_PATH } from 'src/app/constants/api-path';
@@ -43,7 +41,7 @@ export class ProfileCustomizeAvatarComponent extends HandleError implements OnDe
 
   next() {
     this.isLoading = true;
-    const profile = this.store.selectSnapshot(ProfileState);
+    const profile = this.store.selectSnapshot(UpdateProfileState);
     const profileId = this.localStorageManager.get<string>(Storage.PROFILE_ID);
     const formData = new FormData();
     formData.append('image', this.image.file);

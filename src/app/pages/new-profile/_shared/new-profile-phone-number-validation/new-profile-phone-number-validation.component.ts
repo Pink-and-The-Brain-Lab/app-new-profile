@@ -1,8 +1,6 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { ProfileState } from 'src/app/states/state/profile.state';
-import { UpdateProfileAction } from 'src/app/states/actions/update-profile.action';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
@@ -10,6 +8,7 @@ import { IValidateCode } from './models/validate-code.interface';
 import { IValidateCodeResponse } from './models/validate-code-response.interface';
 import { API_PATH } from 'src/app/constants/api-path';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
+import { UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 
 @Component({
   selector: 'app-new-profile-phone-number-validation',
@@ -41,7 +40,7 @@ export class NewProfilePhoneNumberValidationComponent extends HandleError implem
 
   next() {
     this.savingData = true;
-    const profile = this.store.selectSnapshot(ProfileState);
+    const profile = this.store.selectSnapshot(UpdateProfileState);
     const profileUpdated = {
       ...profile,
       phoneNumberValidated: this.isPhoneValidated,
@@ -69,10 +68,7 @@ export class NewProfilePhoneNumberValidationComponent extends HandleError implem
         takeUntil(this.destroy$)
       )
       .subscribe({
-        next: () => {
-          this.isPhoneValidated = true;
-          
-        },
+        next: () => this.isPhoneValidated = true,
         error: _error => {
           super.handleError(_error);
           this.isPhoneValidated = false;

@@ -29,7 +29,7 @@ describe('NewProfileChoosePhoneNumberComponent', () => {
         SpinnerModule,
         LoadingButtonModule,
         TranslateModule.forRoot(),
-        NgxsModule.forRoot([])
+        NgxsModule.forRoot([]),
       ],
       providers: [
         TranslatePipe,

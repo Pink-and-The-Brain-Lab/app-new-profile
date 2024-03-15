@@ -1,14 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { ProfileTypeBoxModule } from '../profile-type-box/profile-type-box.module';
 import { ProfileTypeRoutingModule } from './profile-type-routing.module';
 import { ProfileTypeComponent } from './profile-type.component';
+import { ProfileTypeBoxModule } from 'src/app/components/profile-type-box/profile-type-box.module';
 import { CreateNewProfileIllustrationModule } from 'src/app/illustrations/create-new-profile-illustration/create-new-profile-illustration.module';
 import { CreateNewOrganizationIllustrationModule } from 'src/app/illustrations/create-new-organization-illustration/create-new-organization-illustration.module';
-
-const mockRouter = {
-  navigate: jest.fn()
-};
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+import { ToastrService } from 'ngx-toastr';
+import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
+import TOASTR_SERVICE_MOCK from 'src/app/mocks/toastr-service.test.mock';
+import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock';
+import { Router } from '@angular/router';
 
 describe('ProfileTypeComponent', () => {
   let component: ProfileTypeComponent;
@@ -22,11 +27,17 @@ describe('ProfileTypeComponent', () => {
         ProfileTypeBoxModule,
         CreateNewProfileIllustrationModule,
         CreateNewOrganizationIllustrationModule,
+        HttpClientTestingModule,
+        NoopAnimationsModule,
+        RouterTestingModule.withRoutes([]),
+        TranslateModule.forRoot(),
+        NgxsModule.forRoot([]),
       ],
-      providers: [{
-        provide: Router,
-        useValue: mockRouter
-      }]
+      providers: [
+        TranslatePipe,
+        { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
+        { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
+      ]
     })
     .compileComponents();
 
@@ -43,7 +54,7 @@ describe('ProfileTypeComponent', () => {
 
   it('should navigate to choose email', () => {
     const router = TestBed.inject(Router);
-    const spy = jest.spyOn(router, 'navigate');
+    const spy = spyOn(router, 'navigate');
     component.navigateTo('route');
     expect(spy).toHaveBeenCalledWith(['route']);
   });

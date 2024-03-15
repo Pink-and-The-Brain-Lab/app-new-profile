@@ -28,7 +28,7 @@ describe('GenericCRUDService', () => {
 
   it('should call post method', fakeAsync(() => {
     const responseMock: IDefaultResponse = { success: true, profileId: '1234566' };
-    service.genericPost(`${API_PATH.checkEmailDisponibility}`, {}).subscribe({
+    service.genericPost(`${API_PATH.checkEmailDisponibility}`).subscribe({
       next: response => {
         expect(response).toEqual(responseMock);
       }
