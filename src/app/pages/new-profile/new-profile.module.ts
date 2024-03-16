@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NewProfileComponent } from './new-profile.component';
 import { NewProfileRoutingModule } from './new-profile-routing.module';
 import { NgxsModule } from '@ngxs/store';
-import { ProfileState } from 'src/app/states/state/profile.state';
-import { I18N_CONFIG, LogoModule } from 'millez-web-components/dist/components';
+import { I18N_CONFIG, LogoModule, UpdateProfileState } from 'millez-web-components/dist/components';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
@@ -16,7 +15,7 @@ import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
     NewProfileRoutingModule,
     LogoModule,
     NgxsModule.forRoot([
-      ProfileState
+      UpdateProfileState,
     ]),
     TranslateModule.forRoot(I18N_CONFIG)
   ],
