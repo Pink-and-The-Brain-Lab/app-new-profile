@@ -53,7 +53,7 @@ export class NewProfilePhoneNumberValidationComponent extends HandleError implem
       .subscribe({
         next: _response => {
           this.store.dispatch( new UpdateProfileAction(profileUpdated) );
-          this.router.navigate(['/new-profile/customize-avatar']);
+          this.router.navigate(['/new-profile/select-theme']);
         },
         error: _error => super.handleError(_error),
         complete: () => this.savingData = false,
