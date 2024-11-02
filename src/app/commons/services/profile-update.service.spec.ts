@@ -1,10 +1,11 @@
 import { TestBed, fakeAsync } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { IDefaultResponse } from '../models/default-response.interface';
 import { environment } from 'src/environments/environment';
 import { API_PATH } from 'src/app/constants/api-path';
 import { ProfileUpdate } from './profile-update.service';
 import { LocalStorageManager } from 'millez-web-components/dist/components';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ProfileUpdate', () => {
   let service: ProfileUpdate;
@@ -12,13 +13,13 @@ describe('ProfileUpdate', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
-      providers: [
+    imports: [],
+    providers: [
         ProfileUpdate,
-      ]
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
     service = TestBed.inject(ProfileUpdate);
     httpController = TestBed.inject(HttpTestingController);
   });

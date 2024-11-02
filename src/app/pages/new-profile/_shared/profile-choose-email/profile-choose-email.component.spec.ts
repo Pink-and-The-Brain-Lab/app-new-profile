@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileChooseEmailComponent } from './profile-choose-email.component';
 import { InputValidationModule, LoadingButtonModule, SpinnerModule } from 'millez-web-components/dist/components';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +15,7 @@ import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock'
 import { debounceTime, of, throwError } from 'rxjs';
 import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
 import { Router } from '@angular/router';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ProfileChooseEmailComponent', () => {
   let component: ProfileChooseEmailComponent;
@@ -22,26 +23,25 @@ describe('ProfileChooseEmailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileChooseEmailComponent ],
-      imports: [
-        InputValidationModule,
+    declarations: [ProfileChooseEmailComponent],
+    imports: [InputValidationModule,
         FormsModule,
         ReactiveFormsModule,
         LoadingButtonModule,
         SpinnerModule,
         BrowserModule,
         NoopAnimationsModule,
-        HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot(),
-        NgxsModule.forRoot([]),
-      ],
-      providers: [
+        NgxsModule.forRoot([])],
+    providers: [
         TranslatePipe,
         { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
         { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ProfileChooseEmailComponent);

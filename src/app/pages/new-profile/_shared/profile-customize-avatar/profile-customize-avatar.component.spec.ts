@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProfileCustomizeAvatarComponent } from './profile-customize-avatar.component';
 import { ChoseImageModule, ColorSelectorModule, CropperModule, LoadingButtonModule, LocalStorageManager, ModalModule, ModalOverlayRef, ModalService, ProfilePreviewModule, SpinnerModule } from 'millez-web-components/dist/components';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
@@ -13,6 +13,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
 import { Subject, of, throwError } from 'rxjs';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ProfileCustomizeAvatarComponent', () => {
   let component: ProfileCustomizeAvatarComponent;
@@ -20,27 +21,26 @@ describe('ProfileCustomizeAvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileCustomizeAvatarComponent ],
-      imports: [
-        ProfilePreviewModule,
+    declarations: [ProfileCustomizeAvatarComponent],
+    imports: [ProfilePreviewModule,
         ChoseImageModule,
         ColorSelectorModule,
         ModalModule,
         CropperModule,
         SpinnerModule,
         LoadingButtonModule,
-        HttpClientTestingModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot(),
-        NgxsModule.forRoot([]),
-      ],
-      providers: [
+        NgxsModule.forRoot([])],
+    providers: [
         TranslatePipe,
         { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
         { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ProfileCustomizeAvatarComponent);

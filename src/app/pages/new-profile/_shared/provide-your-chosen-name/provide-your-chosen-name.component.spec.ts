@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProvideYourChosenNameComponent } from './provide-your-chosen-name.component';
 import { InputValidationModule, LoadingButtonModule, ProfilePreviewModule, SpinnerModule } from 'millez-web-components/dist/components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
@@ -13,6 +13,7 @@ import TOASTR_SERVICE_MOCK from 'src/app/mocks/toastr-service.test.mock';
 import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ProvideYourChosenNameComponent', () => {
   let component: ProvideYourChosenNameComponent;
@@ -20,26 +21,25 @@ describe('ProvideYourChosenNameComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProvideYourChosenNameComponent ],
-      imports: [
-        ProfilePreviewModule,
+    declarations: [ProvideYourChosenNameComponent],
+    imports: [ProfilePreviewModule,
         InputValidationModule,
         FormsModule,
         ReactiveFormsModule,
         SpinnerModule,
         LoadingButtonModule,
-        HttpClientTestingModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot(),
-        NgxsModule.forRoot([]),
-      ],
-      providers: [
+        NgxsModule.forRoot([])],
+    providers: [
         TranslatePipe,
         { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
         { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ProvideYourChosenNameComponent);

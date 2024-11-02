@@ -11,8 +11,9 @@ import { Router } from '@angular/router';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock';
 import { of, throwError } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('NewProfileChoosePhoneNumberComponent', () => {
   let component: NewProfileChoosePhoneNumberComponent;
@@ -20,23 +21,22 @@ describe('NewProfileChoosePhoneNumberComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewProfileChoosePhoneNumberComponent ],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([]),
+    declarations: [NewProfileChoosePhoneNumberComponent],
+    imports: [RouterTestingModule.withRoutes([]),
         BrowserAnimationsModule,
         PhoneNumberModule,
         SpinnerModule,
         LoadingButtonModule,
         TranslateModule.forRoot(),
-        NgxsModule.forRoot([]),
-      ],
-      providers: [
+        NgxsModule.forRoot([])],
+    providers: [
         TranslatePipe,
         { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
         { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(NewProfileChoosePhoneNumberComponent);

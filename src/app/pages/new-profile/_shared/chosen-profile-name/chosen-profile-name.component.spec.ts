@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
 import TOASTR_SERVICE_MOCK from 'src/app/mocks/toastr-service.test.mock';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from "@angular/router/testing";
 import { ChosenProfileNameRoutingModule } from './chosen-profile-name-routing';
 import { InputValidationModule, LoadingButtonModule, ProfilePreviewModule, SpinnerModule } from 'millez-web-components/dist/components';
@@ -15,6 +15,7 @@ import { of, throwError } from 'rxjs';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 import { Router } from '@angular/router';
 import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ChosenProfileNameComponent', () => {
   let component: ChosenProfileNameComponent;
@@ -23,10 +24,8 @@ describe('ChosenProfileNameComponent', () => {
   beforeEach(async () => {
     const spy = jasmine.createSpyObj('GenericCRUDService', ['genericPost']);
     await TestBed.configureTestingModule({
-      declarations: [ ChosenProfileNameComponent ],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([]),
+    declarations: [ChosenProfileNameComponent],
+    imports: [RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot(),
         ChosenProfileNameRoutingModule,
         ProfilePreviewModule,
@@ -36,15 +35,16 @@ describe('ChosenProfileNameComponent', () => {
         SpinnerModule,
         LoadingButtonModule,
         NoopAnimationsModule,
-        NgxsModule.forRoot([])
-      ],
-      providers: [
+        NgxsModule.forRoot([])],
+    providers: [
         TranslatePipe,
         { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
         { provide: GenericCRUDService, useValue: spy },
         { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ChosenProfileNameComponent);

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SelectProfileTypeComponent } from './select-profile-type.component';
 import { CustomSelectModule, LoadingButtonModule, ProfilePreviewModule, SpinnerModule } from 'millez-web-components/dist/components';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
@@ -12,6 +12,7 @@ import TOASTR_SERVICE_MOCK from 'src/app/mocks/toastr-service.test.mock';
 import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('SelectProfileTypeComponent', () => {
   let component: SelectProfileTypeComponent;
@@ -19,24 +20,23 @@ describe('SelectProfileTypeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelectProfileTypeComponent ],
-      imports: [
-        ProfilePreviewModule,
+    declarations: [SelectProfileTypeComponent],
+    imports: [ProfilePreviewModule,
         CustomSelectModule,
         LoadingButtonModule,
         SpinnerModule,
-        HttpClientTestingModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot(),
-        NgxsModule.forRoot([]),
-      ],
-      providers: [
+        NgxsModule.forRoot([])],
+    providers: [
         TranslatePipe,
         { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
         { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(SelectProfileTypeComponent);

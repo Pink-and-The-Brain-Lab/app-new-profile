@@ -4,7 +4,7 @@ import { ProfileTypeComponent } from './profile-type.component';
 import { ProfileTypeBoxModule } from 'src/app/components/profile-type-box/profile-type-box.module';
 import { CreateNewProfileIllustrationModule } from 'src/app/illustrations/create-new-profile-illustration/create-new-profile-illustration.module';
 import { CreateNewOrganizationIllustrationModule } from 'src/app/illustrations/create-new-organization-illustration/create-new-organization-illustration.module';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
@@ -14,6 +14,7 @@ import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 import TOASTR_SERVICE_MOCK from 'src/app/mocks/toastr-service.test.mock';
 import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock';
 import { Router } from '@angular/router';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ProfileTypeComponent', () => {
   let component: ProfileTypeComponent;
@@ -21,24 +22,23 @@ describe('ProfileTypeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileTypeComponent ],
-      imports: [
-        ProfileTypeRoutingModule,
+    declarations: [ProfileTypeComponent],
+    imports: [ProfileTypeRoutingModule,
         ProfileTypeBoxModule,
         CreateNewProfileIllustrationModule,
         CreateNewOrganizationIllustrationModule,
-        HttpClientTestingModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes([]),
         TranslateModule.forRoot(),
-        NgxsModule.forRoot([]),
-      ],
-      providers: [
+        NgxsModule.forRoot([])],
+    providers: [
         TranslatePipe,
         { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
         { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ProfileTypeComponent);

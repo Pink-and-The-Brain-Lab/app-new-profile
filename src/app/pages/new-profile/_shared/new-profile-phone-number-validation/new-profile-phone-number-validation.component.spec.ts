@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewProfilePhoneNumberValidationComponent } from './new-profile-phone-number-validation.component';
 import { CodeValidationModule, LoadingButtonModule, SpinnerModule } from 'millez-web-components/dist/components';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { ToastrService } from 'ngx-toastr';
@@ -13,6 +13,7 @@ import PROFILE_UPDATE_MOCK from 'src/app/mocks/profile-update-service.test.mock'
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { GenericCRUDService } from 'src/app/commons/services/generic-crud.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('NewProfilePhoneNumberValidationComponent', () => {
   let component: NewProfilePhoneNumberValidationComponent;
@@ -20,23 +21,22 @@ describe('NewProfilePhoneNumberValidationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewProfilePhoneNumberValidationComponent ],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([]),
+    declarations: [NewProfilePhoneNumberValidationComponent],
+    imports: [RouterTestingModule.withRoutes([]),
         BrowserAnimationsModule,
         CodeValidationModule,
         SpinnerModule,
         LoadingButtonModule,
         TranslateModule.forRoot(),
-        NgxsModule.forRoot([]),
-      ],
-      providers: [
+        NgxsModule.forRoot([])],
+    providers: [
         TranslatePipe,
         { provide: ToastrService, useValue: TOASTR_SERVICE_MOCK },
         { provide: ProfileUpdate, useValue: PROFILE_UPDATE_MOCK },
-      ]
-    })
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(NewProfilePhoneNumberValidationComponent);
