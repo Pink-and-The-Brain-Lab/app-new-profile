@@ -8,7 +8,7 @@ import { IValidateCode } from './models/validate-code.interface';
 import { IValidateCodeResponse } from './models/validate-code-response.interface';
 import { API_PATH } from 'src/app/constants/api-path';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
-import { UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
+import { IUpdateProfile, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 
 @Component({
   selector: 'app-new-profile-phone-number-validation',
@@ -40,7 +40,7 @@ export class NewProfilePhoneNumberValidationComponent extends HandleError implem
 
   next() {
     this.savingData = true;
-    const profile = this.store.selectSnapshot(UpdateProfileState);
+    const profile = this.store.selectSnapshot<IUpdateProfile>(UpdateProfileState.profile);
     const profileUpdated = {
       ...profile,
       phoneNumberValidated: this.isPhoneValidated,

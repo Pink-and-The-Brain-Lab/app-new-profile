@@ -6,7 +6,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 import { TranslatePipe } from '@ngx-translate/core';
-import { UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
+import { IUpdateProfile, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 
 @Component({
   selector: 'app-chosen-profile-name',
@@ -62,7 +62,7 @@ export class ChosenProfileNameComponent extends HandleError implements OnDestroy
   }
 
   next() {
-    const profile = this.store.selectSnapshot(UpdateProfileState);
+    const profile = this.store.selectSnapshot<IUpdateProfile>(UpdateProfileState.profile);
     const profileUpdated = {
       ...profile,
       profileName: this.name?.value,

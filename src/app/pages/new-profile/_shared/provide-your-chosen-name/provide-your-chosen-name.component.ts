@@ -6,7 +6,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
 import { TranslatePipe } from '@ngx-translate/core';
-import { UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
+import { IUpdateProfile, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 
 @Component({
   selector: 'app-provide-your-chosen-name',
@@ -60,7 +60,7 @@ export class ProvideYourChosenNameComponent extends HandleError implements OnDes
   }
 
   next() {
-    const profile = this.store.selectSnapshot(UpdateProfileState);
+    const profile = this.store.selectSnapshot<IUpdateProfile>(UpdateProfileState.profile);
     const profileUpdated = {
       ...profile,
       userName: this.name?.value,

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Theme, ThemeChangerService, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
+import { IUpdateProfile, Theme, ThemeChangerService, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 import { Subject, takeUntil } from 'rxjs';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
@@ -47,7 +47,7 @@ export class SelectThemeComponent extends HandleError implements OnDestroy {
 
   next() {
     this.isLoading = true;
-    const profile = this.store.selectSnapshot(UpdateProfileState);
+    const profile = this.store.selectSnapshot<IUpdateProfile>(UpdateProfileState.profile);
     const profileUpdated = {
       ...profile,
       theme: this.selectedTheme,

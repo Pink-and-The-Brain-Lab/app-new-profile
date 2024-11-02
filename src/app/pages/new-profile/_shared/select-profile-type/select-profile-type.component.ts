@@ -5,7 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProfileType } from './models/profile-type.interface';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
-import { DashboardVisualizationControlAction, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
+import { DashboardVisualizationControlAction, IUpdateProfile, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -67,7 +67,7 @@ export class SelectProfileTypeComponent extends HandleError implements OnDestroy
 
   next() {
     this.isLoading = true;
-    const profile = this.store.selectSnapshot(UpdateProfileState);
+    const profile = this.store.selectSnapshot<IUpdateProfile>(UpdateProfileState.profile);
     const profileUpdated = {
       ...profile,
       profileType: this.selectedOption.value,

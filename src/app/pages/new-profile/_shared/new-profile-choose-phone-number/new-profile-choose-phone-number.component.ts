@@ -8,7 +8,7 @@ import { GenericCRUDService } from 'src/app/commons/services/generic-crud.servic
 import { IValidatePhoneNumber } from '../profile-choose-email/models/validate-phone-number.interface';
 import { API_PATH } from 'src/app/constants/api-path';
 import { ProfileUpdate } from 'src/app/commons/services/profile-update.service';
-import { UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
+import { IUpdateProfile, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 
 @Component({
   selector: 'app-new-profile-choose-phone-number',
@@ -42,7 +42,7 @@ export class NewProfileChoosePhoneNumberComponent extends HandleError implements
 
   next() {
     this.savingData = true;
-    const profile = this.store.selectSnapshot(UpdateProfileState);
+    const profile = this.store.selectSnapshot<IUpdateProfile>(UpdateProfileState.profile);
     const profileUpdated = {
       ...profile,
       phoneNumber: this.phoneNumber,

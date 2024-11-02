@@ -8,7 +8,7 @@ import { IDefaultResponse } from 'src/app/commons/models/default-response.interf
 import { IValidateEmail } from './models/validate-email.interface';
 import { API_PATH } from 'src/app/constants/api-path';
 import { HandleError } from 'src/app/commons/handle-error/handle-error';
-import { LocalStorageManager, Storage, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
+import { IUpdateProfile, LocalStorageManager, Storage, UpdateProfileAction, UpdateProfileState } from 'millez-web-components/dist/components';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -107,7 +107,7 @@ export class ProfileChooseEmailComponent extends HandleError implements OnInit, 
 
   next() {
     this.savingData = true;
-    const profile = this.store.selectSnapshot(UpdateProfileState);
+    const profile = this.store.selectSnapshot<IUpdateProfile>(UpdateProfileState.profile);
     const profileUpdated = {
       ...profile,
       email: this.email?.value,
